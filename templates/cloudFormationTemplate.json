@@ -1,0 +1,66 @@
+{
+  "Parameters" : {
+    "BucketName" : {
+      "Type" : "String"
+    }
+  },
+  "Resources": {
+    "LambdaExecutionRoleKeybox": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "Path": "/",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "KeyBox",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:*"
+                  ],
+                  "Resource": "arn:aws:logs:*:*:*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:GetObject"
+                  ],
+                  "Resource": { "Fn::Join": [ "", [ "arn:aws:s3:::", { "Ref": "BucketName" }, "/KeyBox/*" ] ] }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "KeyBoxLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Handler": "KeyBox.handler",
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRoleKeybox", "Arn"] },
+        "Code": {
+          "S3Bucket": { "Ref" : "BucketName" },
+          "S3Key": "KeyBox/KeyBox.zip"
+        },
+        "Runtime": "nodejs",
+	"MemorySize" : "1024",
+        "Timeout": "15"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "aws-sdk": "2.1.45",
+    "cli": "0.9.0",
+    "openpgp": "1.2.0",
+    "read": "1.0.6",
+    "triplesec": "3.0.20"
+  },
+  "name": "keybox",
+  "version": "0.0.2",
+  "author": "@brettweavnet",
+  "license": "MIT",
+  "description": "Encrypt, store, protect and audit your GPG Keys in AWS.",
+  "main": "cli.js",
+  "bin": {
+    "keybox": "cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/brettweavnet/keybox"
+  }
+}

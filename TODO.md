@@ -1,0 +1,1 @@
+* Remove quotes from output

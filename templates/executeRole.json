@@ -1,0 +1,45 @@
+{
+  "Description": "Creates an IAM role to execute keybox function",
+  "Resources": {
+    "IAMRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "Path": "/",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": { "Fn::Join": [ "", [ "arn:aws:iam::", { "Ref": "AWS::AccountId" }, ":root" ] ] }
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ],
+              "Condition": {
+                "Bool": {
+                  "aws:MultiFactorAuthPresent": "true"
+                }
+              }
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "keybox",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [ "lambda:InvokeFunction" ],
+                  "Resource": { "Fn::Join": [ "", [ "arn:aws:lambda:", { "Ref": "AWS::Region" }, ":", { "Ref": "AWS::AccountId" }, ":", "function:KeyBox*" ] ] }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "bucketName": "keybox-bucket",
+  "keyName": "home",
+  "message": "-----BEGIN PGP MESSAGE-----\nVersion: GnuPG v1\n\nXXXXXXXXXX...\n-----END PGP MESSAGE-----\n",
+  "password": "password"
+}
